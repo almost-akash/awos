@@ -39,3 +39,19 @@ The web client observes the platform through providers and hooks.
 The platform owns behavior.
 
 The UI owns presentation.
+
+## Runtime Container
+
+AWOS owns a RuntimeContainer that is responsible for managing runtime services.
+
+Currently registered:
+
+- RuntimeKernel
+
+Future services:
+
+- ORION
+- ThemeEngine
+- AudioEngine
+- DiagnosticsEngine
+- ModuleManager

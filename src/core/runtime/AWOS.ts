@@ -1,24 +1,30 @@
 import { RuntimeKernel } from "./RuntimeKernel";
 import { RuntimeState } from "./RuntimeState";
 import { BootSequence } from "./lifecycle/BootSequence";
+import { RuntimeContainer } from "../services";
 
 export class AWOS {
-  private kernel = new RuntimeKernel();
+  private readonly container = new RuntimeContainer();
 
-  subscribe = this.kernel.subscribe.bind(this.kernel);
-  getSnapshot = this.kernel.getSnapshot.bind(this.kernel);
+  constructor() {
+    this.container.register("RuntimeKernel", new RuntimeKernel());
+  }
 
+  private get kernel() {
+    return this.container.resolve<RuntimeKernel>("RuntimeKernel");
+  }
+
+  subscribe = (...args: Parameters<RuntimeKernel["subscribe"]>) =>
+    this.kernel.subscribe(...args);
+  getSnapshot = () => this.kernel.getSnapshot();
   async boot() {
     await new BootSequence().execute(this);
   }
-
   transition(state: RuntimeState) {
+    const snapshot = this.kernel.getSnapshot();
     this.kernel.update({
       state,
-      bootTime:
-        state === RuntimeState.READY
-          ? new Date()
-          : this.kernel.getSnapshot().bootTime,
+      bootTime: state === RuntimeState.READY ? new Date() : snapshot.bootTime,
     });
   }
 
