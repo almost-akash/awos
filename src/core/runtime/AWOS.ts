@@ -1,28 +1,27 @@
+import { resolve } from "path";
+import { RuntimeKernel } from "./RuntimeKernel";
 import { RuntimeState } from "./RuntimeState";
 
 export class AWOS {
-    private state: RuntimeState = RuntimeState.POWER_OFF;
+  private kernel = new RuntimeKernel();
 
-    getState(): RuntimeState {
-        return this.state;
-    }
+  subscribe = this.kernel.subscribe.bind(this.kernel);
 
-    async boot(onStateChange: (state: RuntimeState) => void) {
-        this.state = RuntimeState.BOOTING;
-        onStateChange(this.state);
+  getSnapshot = this.kernel.getSnapshot.bind(this.kernel);
 
-        await this.delay(1000);
+  async boot() {
+    this.kernel.update({ state: RuntimeState.BOOTING });
 
-        this.state = RuntimeState.INITIALIZING;
-        onStateChange(this.state);
+    await this.delay(1000);
 
-        await this.delay(1000);
+    this.kernel.update({ state: RuntimeState.INITIALIZING });
 
-        this.state = RuntimeState.READY;
-        onStateChange(this.state);
-    }
+    await this.delay(1000);
 
-    private delay(ms: number) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-    }
+    this.kernel.update({ state: RuntimeState.READY, bootTime: new Date() });
+  }
+
+  private delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 }

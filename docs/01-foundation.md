@@ -37,3 +37,20 @@
 ### Notes
 
 The boot interface is now completely decoupled from the runtime. It only renders state exposed by AWOS.
+
+## Runtime Kernel
+
+### Completed
+
+- Introduced RuntimeSnapshot
+- Introduced RuntimeKernel
+- Removed callback-driven runtime
+- Runtime now owns all state
+
+### Architecture
+
+AWOS
+    │
+RuntimeKernel
+    │
+Subscribers
