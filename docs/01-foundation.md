@@ -25,3 +25,15 @@
 - [x] Runtime boots
 - [x] React updates automatically
 - [x] No runtime logic inside page.tsx
+
+## Boot UI
+
+### Completed
+
+- BootScreen component
+- BootStatus component
+- Runtime status visualization
+
+### Notes
+
+The boot interface is now completely decoupled from the runtime. It only renders state exposed by AWOS.
