@@ -1,6 +1,7 @@
 import { RuntimeLogEntry } from "./RuntimeLogEntry";
 import { RuntimeSnapshot } from "./RuntimeSnapshot";
 import { RuntimeState } from "./RuntimeState";
+import { RuntimeStep } from "./RuntimeStep";
 
 type Listener = (snapshot: Readonly<RuntimeSnapshot>) => void;
 
@@ -30,10 +31,6 @@ export class RuntimeKernel {
     return Object.freeze({ ...this.snapshot });
   }
 
-  appendLog(entry: RuntimeLogEntry) {
-    this.update({ logs: [...this.snapshot.logs, entry] });
-  }
-
   update(partial: Partial<RuntimeSnapshot>) {
     this.snapshot = {
       ...this.snapshot,
@@ -41,6 +38,14 @@ export class RuntimeKernel {
     };
 
     this.notify();
+  }
+
+  public setCurrentStep(step: RuntimeStep) {
+    this.update({ currentStep: step });
+  }
+
+  public appendLog(entry: RuntimeLogEntry) {
+    this.update({ logs: [...this.snapshot.logs, entry] });
   }
 
   private notify() {

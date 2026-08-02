@@ -1,4 +1,4 @@
-export type RuntimeLogLevel = "info" | "success" | "warning" | "error";
+import { RuntimeLogLevel } from "./RuntimeLogLevel";
 
 export interface RuntimeLogEntry {
   id: string;
