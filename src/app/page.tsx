@@ -3,27 +3,26 @@
 import { RuntimeState } from "@/core/runtime";
 import { useRuntime } from "@/hooks/useRuntime";
 import { BootScreen } from "@/ui/boot/BootScreen";
+import { BootHeader } from "@/ui/boot/BootHeader";
 
 export default function Home() {
   const { snapshot, boot } = useRuntime();
-  const { state } = snapshot;
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-black text-white">
-      <div className="space-y-10">
-        <BootScreen state={state} />
-        {state === RuntimeState.POWER_OFF && (
+    <main className="min-h-screen bg-black text-white flex items-center justify-center p-10">
+      {snapshot.state === RuntimeState.POWER_OFF ? (
+        <div className="space-y-10 text-center">
+          <BootHeader />
           <button
             onClick={boot}
-            className="w-full rounded-md bg-white py-3 text-black transition hover:opacity-90"
+            className="rounded-lg border border-neutral-700 px-8 py-3 hover:bg-neutral-900"
           >
-            Power ON
+            Power On
           </button>
-        )}
-        {state === RuntimeState.READY && (
-          <p className="text-center font-mono text-green-400">Runtime Ready</p>
-        )}
-      </div>
+        </div>
+      ) : (
+        <BootScreen snapshot={snapshot} />
+      )}
     </main>
   );
 }

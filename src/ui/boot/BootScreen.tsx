@@ -1,18 +1,17 @@
-import { RuntimeState } from "@/core/runtime";
-import { BootStatus } from "./BootStatus";
+import { RuntimeSnapshot } from "@/core/runtime";
+import { BootHeader } from "./BootHeader";
+import { BootJournal } from "./BootJournal";
 
-interface BootScreenProps {
-  state: RuntimeState;
+interface Props {
+  snapshot: Readonly<RuntimeSnapshot>;
 }
 
-export function BootScreen({ state }: BootScreenProps) {
+export function BootScreen({ snapshot }: Props) {
   return (
-    <div className="flex flex-col items-center gap-8">
-      <h1 className="text-6xl font-bold tracking-widest">AWOS</h1>
-      <p className="font-mono text-neutral-400">
-        AI Workbench Operating System
-      </p>
-      <BootStatus state={state} />
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-10">
+      <BootHeader />
+
+      <BootJournal logs={snapshot.logs} />
     </div>
   );
 }

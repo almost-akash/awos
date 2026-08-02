@@ -1,6 +1,6 @@
 export enum RuntimeLogLevel {
   INFO = "info",
-  SUCCESS = "success",
-  WARNING = "warning",
-  ERROR = "error",
+  PASS = "pass",
+  WARN = "warn",
+  FAIL = "fail",
 }

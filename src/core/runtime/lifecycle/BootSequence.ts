@@ -39,7 +39,7 @@ export class BootSequence implements Lifecycle {
     await runtime.step({
       title: "Runtime Ready",
       state: RuntimeState.READY,
-      level: RuntimeLogLevel.SUCCESS,
+      level: RuntimeLogLevel.PASS,
     });
   }
 }

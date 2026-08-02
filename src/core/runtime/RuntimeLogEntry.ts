@@ -2,7 +2,7 @@ import { RuntimeLogLevel } from "./RuntimeLogLevel";
 
 export interface RuntimeLogEntry {
   id: string;
-  timestamp: Date;
+  timestamp: number;
   level: RuntimeLogLevel;
   message: string;
 }

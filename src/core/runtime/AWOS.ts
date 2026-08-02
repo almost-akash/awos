@@ -6,6 +6,7 @@ import { RuntimeStep } from "./RuntimeStep";
 import { RuntimeLogLevel } from "./RuntimeLogLevel";
 
 export class AWOS {
+  private sessionStart = performance.now();
   private readonly container = new RuntimeContainer();
 
   constructor() {
@@ -44,7 +45,7 @@ export class AWOS {
   private log(message: string, level: RuntimeLogLevel) {
     this.kernel.appendLog({
       id: crypto.randomUUID(),
-      timestamp: new Date(),
+      timestamp: performance.now() - this.sessionStart,
       level,
       message,
     });
