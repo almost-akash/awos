@@ -1,26 +1,28 @@
 import { RuntimeKernel } from "./RuntimeKernel";
 import { RuntimeState } from "./RuntimeState";
+import { BootSequence } from "./lifecycle/BootSequence";
 
 export class AWOS {
   private kernel = new RuntimeKernel();
 
   subscribe = this.kernel.subscribe.bind(this.kernel);
-
   getSnapshot = this.kernel.getSnapshot.bind(this.kernel);
 
   async boot() {
-    this.kernel.update({ state: RuntimeState.BOOTING });
-
-    await this.delay(1000);
-
-    this.kernel.update({ state: RuntimeState.INITIALIZING });
-
-    await this.delay(1000);
-
-    this.kernel.update({ state: RuntimeState.READY, bootTime: new Date() });
+    await new BootSequence().execute(this);
   }
 
-  private delay(ms: number) {
+  transition(state: RuntimeState) {
+    this.kernel.update({
+      state,
+      bootTime:
+        state === RuntimeState.READY
+          ? new Date()
+          : this.kernel.getSnapshot().bootTime,
+    });
+  }
+
+  wait(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
