@@ -1,3 +1,4 @@
+import { RuntimeLogEntry } from "./RuntimeLogEntry";
 import { RuntimeSnapshot } from "./RuntimeSnapshot";
 import { RuntimeState } from "./RuntimeState";
 
@@ -10,6 +11,8 @@ export class RuntimeKernel {
     bootTime: null,
     activeModule: null,
     theme: "midnight",
+    currentStep: null,
+    logs: [],
   };
 
   private listeners = new Set<Listener>();
@@ -25,6 +28,10 @@ export class RuntimeKernel {
 
   getSnapshot(): Readonly<RuntimeSnapshot> {
     return Object.freeze({ ...this.snapshot });
+  }
+
+  appendLog(entry: RuntimeLogEntry) {
+    this.update({ logs: [...this.snapshot.logs, entry] });
   }
 
   update(partial: Partial<RuntimeSnapshot>) {

@@ -50,3 +50,27 @@ Using Symbols eliminates collisions and string-based lookup errors while remaini
 - RuntimeContainer no longer accepts string identifiers.
 - All runtime services are registered through RuntimeServices tokens.
 - Future runtime services (ORION, ThemeEngine, AudioEngine, DiagnosticsEngine, ModuleManager) will use the same registration mechanism.
+
+# ADR-003 — Runtime Step Pipeline
+
+Status
+
+Accepted
+
+Decision
+
+All runtime workflows execute through runtime.step().
+
+Rationale
+
+Runtime.step() provides a single pipeline responsible for:
+
+- Updating runtime snapshots
+- Creating runtime logs
+- Transitioning runtime state
+- Waiting between steps
+- Notifying subscribers
+
+Consequences
+
+Future runtime workflows (Boot, Shutdown, Restart, Recovery, Diagnostics) become declarative sequences instead of imperative state manipulation.

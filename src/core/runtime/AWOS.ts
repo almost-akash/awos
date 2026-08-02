@@ -2,6 +2,7 @@ import { RuntimeKernel } from "./RuntimeKernel";
 import { RuntimeState } from "./RuntimeState";
 import { BootSequence } from "./lifecycle/BootSequence";
 import { RuntimeContainer, RuntimeServices } from "../services";
+import { RuntimeStep } from "./RuntimeStep";
 
 export class AWOS {
   private readonly container = new RuntimeContainer();
@@ -26,6 +27,22 @@ export class AWOS {
       state,
       bootTime: state === RuntimeState.READY ? new Date() : snapshot.bootTime,
     });
+  }
+
+  async step(step: RuntimeStep) {
+    this.kernel.update({ currentStep: step });
+    this.kernel.appendLog({
+      id: crypto.randomUUID(),
+      timestamp: new Date(),
+      level: "info",
+      message: step.title,
+    });
+    if (step.state) {
+      this.transition(step.state);
+    }
+    if (step.delay) {
+      await this.wait(step.delay);
+    }
   }
 
   wait(ms: number) {
