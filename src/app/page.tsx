@@ -1,8 +1,8 @@
 "use client";
 
-import { RuntimeState } from "@/runtime";
+import { RuntimeState } from "@/core/runtime";
 import { useRuntime } from "@/hooks/useRuntime";
-import { BootScreen } from "@/components/boot/BootScreen";
+import { BootScreen } from "@/ui/boot/BootScreen";
 
 export default function Home() {
   const { state, boot } = useRuntime();

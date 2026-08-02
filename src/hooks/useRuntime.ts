@@ -1,4 +1,4 @@
-import { useRuntimeContext } from "@/components/runtime/RuntimeProvider";
+import { useRuntimeContext } from "@/providers/RuntimeProvider";
 
 export function useRuntime() {
   return useRuntimeContext();

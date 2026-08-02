@@ -1,4 +1,4 @@
-import { RuntimeState } from "@/runtime";
+import { RuntimeState } from "@/core/runtime";
 import { BootStatus } from "./BootStatus";
 
 interface BootScreenProps {

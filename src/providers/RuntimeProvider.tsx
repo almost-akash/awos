@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo, useState, ReactNode } from "react";
 
-import { AWOS, RuntimeState } from "@/runtime";
+import { AWOS, RuntimeState } from "@/core/runtime";
 
 interface RuntimeContextValue {
   runtime: AWOS;
