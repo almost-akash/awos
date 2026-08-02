@@ -5,10 +5,10 @@ interface ConsoleLevelProps {
 }
 
 const COLORS: Record<RuntimeLogLevel, string> = {
-  [RuntimeLogLevel.INFO]: "text-cyan-400",
-  [RuntimeLogLevel.PASS]: "text-emerald-400",
-  [RuntimeLogLevel.WARN]: "text-amber-400",
-  [RuntimeLogLevel.FAIL]: "text-red-400",
+  [RuntimeLogLevel.INFO]: "font-normal text-cyan-400",
+  [RuntimeLogLevel.PASS]: "font-bold text-emerald-400",
+  [RuntimeLogLevel.WARN]: "font-semibold text-amber-400",
+  [RuntimeLogLevel.FAIL]: "font-bold text-red-400",
 };
 
 const LABELS: Record<RuntimeLogLevel, string> = {
@@ -20,7 +20,7 @@ const LABELS: Record<RuntimeLogLevel, string> = {
 
 export function ConsoleLevel({ level }: ConsoleLevelProps) {
   return (
-    <span className={`w-16 shrink-0 font-semibold uppercase ${COLORS[level]}`}>
+    <span className={`w-16 shrink-0 uppercase ${COLORS[level]}`}>
       {LABELS[level]}
     </span>
   );
