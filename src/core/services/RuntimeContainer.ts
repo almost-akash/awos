@@ -1,24 +1,26 @@
-export class RuntimeContainer {
-  private readonly services = new Map<string, unknown>();
+import { RuntimeServiceToken } from "./RuntimeServices";
 
-  register<T>(key: string, instance: T): void {
-    if (this.services.has(key)) {
-      throw new Error(`Service '${key}' is already registered.`);
+export class RuntimeContainer {
+  private readonly services = new Map<RuntimeServiceToken, unknown>();
+
+  register<T>(token: RuntimeServiceToken, instance: T): void {
+    if (this.services.has(token)) {
+      throw new Error("Service already registered.");
     }
 
-    this.services.set(key, instance);
+    this.services.set(token, instance);
   }
 
-  resolve<T>(key: string): T {
-    const service = this.services.get(key);
+  resolve<T>(token: RuntimeServiceToken): T {
+    const service = this.services.get(token);
 
     if (!service) {
-      throw new Error(`Service '${key}' was not found.`);
+      throw new Error("Requested service is not registered.");
     }
     return service as T;
   }
 
-  has(key: string): boolean {
-    return this.services.has(key);
+  has(token: RuntimeServiceToken): boolean {
+    return this.services.has(token);
   }
 }
