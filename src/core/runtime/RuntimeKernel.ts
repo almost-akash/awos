@@ -1,4 +1,3 @@
-import { listeners } from "process";
 import { RuntimeSnapshot } from "./RuntimeSnapshot";
 import { RuntimeState } from "./RuntimeState";
 

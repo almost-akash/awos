@@ -5,7 +5,8 @@ import { useRuntime } from "@/hooks/useRuntime";
 import { BootScreen } from "@/ui/boot/BootScreen";
 
 export default function Home() {
-  const { state, boot } = useRuntime();
+  const { snapshot, boot } = useRuntime();
+  const { state } = snapshot;
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-black text-white">

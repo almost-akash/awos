@@ -1,4 +1,3 @@
-import { resolve } from "path";
 import { RuntimeKernel } from "./RuntimeKernel";
 import { RuntimeState } from "./RuntimeState";
 

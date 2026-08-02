@@ -1,12 +1,18 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState, ReactNode } from "react";
-
-import { AWOS, RuntimeState } from "@/core/runtime";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
+import { AWOS, RuntimeSnapshot } from "@/core/runtime";
 
 interface RuntimeContextValue {
   runtime: AWOS;
-  state: RuntimeState;
+  snapshot: Readonly<RuntimeSnapshot>;
   boot: () => Promise<void>;
 }
 
@@ -15,28 +21,23 @@ const RuntimeContext = createContext<RuntimeContextValue | null>(null);
 export function RuntimeProvider({ children }: { children: ReactNode }) {
   const runtime = useMemo(() => new AWOS(), []);
 
-  const [state, setState] = useState(runtime.getState());
+  const [snapshot, setSnapshot] = useState(runtime.getSnapshot());
 
-  async function boot() {
-    await runtime.boot(setState);
-  }
+  useEffect(() => {
+    return runtime.subscribe(setSnapshot);
+  }, [runtime]);
 
   return (
     <RuntimeContext.Provider
-      value={{
-        runtime,
-        state,
-        boot,
-      }}
+      value={{ runtime, snapshot, boot: () => runtime.boot() }}
     >
-      {children}
+      {children}{" "}
     </RuntimeContext.Provider>
   );
 }
 
 export function useRuntimeContext() {
   const context = useContext(RuntimeContext);
-
   if (!context) {
     throw new Error("useRuntimeContext must be used inside RuntimeProvider");
   }

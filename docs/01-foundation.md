@@ -54,3 +54,15 @@ AWOS
 RuntimeKernel
     │
 Subscribers
+
+## Runtime Subscription
+
+### Completed
+
+- RuntimeProvider now subscribes to RuntimeKernel.
+- AWOS no longer knows about React.
+- Runtime state is exposed through immutable snapshots.
+
+### Result
+
+The runtime is now framework-agnostic. The web client acts as an observer of the platform rather than controlling it.
