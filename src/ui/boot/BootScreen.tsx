@@ -1,6 +1,6 @@
 import { RuntimeSnapshot } from "@/core/runtime";
 import { OrionSnapshot } from "@/core/services";
-
+import { Terminal } from "@/ui/terminal";
 import { BootHeader } from "./BootHeader";
 import { BootJournal } from "./BootJournal";
 import { BootStatusPanel } from "./BootStatusPanel";
@@ -22,6 +22,8 @@ export function BootScreen({ runtime, orion }: BootScreenProps) {
       <BootJournal logs={runtime.logs} />
 
       <OrionPanel snapshot={orion} />
+
+      <Terminal />
     </div>
   );
 }
