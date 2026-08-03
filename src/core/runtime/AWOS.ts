@@ -4,10 +4,14 @@ import { BootSequence } from "./lifecycle/BootSequence";
 import { RuntimeContainer, RuntimeServices } from "../services";
 import { RuntimeStep } from "./RuntimeStep";
 import { RuntimeLogLevel } from "./RuntimeLogLevel";
+import { ServiceContainer } from "@/core/services";
 
 export class AWOS {
-  private sessionStart = performance.now();
+  private readonly sessionStart = performance.now();
+
   private readonly container = new RuntimeContainer();
+  private readonly services = new ServiceContainer();
+  private readonly bootSequence = new BootSequence();
 
   constructor() {
     this.container.register(RuntimeServices.Kernel, new RuntimeKernel());
@@ -17,14 +21,23 @@ export class AWOS {
     return this.container.resolve<RuntimeKernel>(RuntimeServices.Kernel);
   }
 
+  public getServices(): Readonly<ServiceContainer> {
+    return this.services;
+  }
+
   subscribe = (...args: Parameters<RuntimeKernel["subscribe"]>) =>
     this.kernel.subscribe(...args);
+
   getSnapshot = () => this.kernel.getSnapshot();
-  async boot() {
-    await new BootSequence().execute(this);
+
+  public async boot() {
+    await this.bootSequence.execute(this);
+    this.services.orion.initialize();
   }
+
   transition(state: RuntimeState) {
     const snapshot = this.kernel.getSnapshot();
+
     this.kernel.update({
       state,
       bootTime: state === RuntimeState.READY ? new Date() : snapshot.bootTime,
@@ -33,10 +46,13 @@ export class AWOS {
 
   public async step(step: RuntimeStep) {
     this.kernel.setCurrentStep(step);
+
     this.log(step.title, step.level ?? RuntimeLogLevel.INFO);
+
     if (step.state) {
       this.transition(step.state);
     }
+
     if (step.delay) {
       await this.wait(step.delay);
     }
@@ -51,7 +67,7 @@ export class AWOS {
     });
   }
 
-  wait(ms: number) {
+  private wait(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
