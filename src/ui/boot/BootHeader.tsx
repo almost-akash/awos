@@ -5,6 +5,8 @@ export function BootHeader() {
 
       <h1 className="text-5xl font-bold tracking-[0.45em]">AWOS</h1>
 
+      ...
+
       <p className="text-neutral-400">Artificial Workbench Operating System</p>
 
       <p className="font-runtime text-xs uppercase tracking-[0.35em] text-neutral-400">
