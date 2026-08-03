@@ -10,7 +10,7 @@ export class Shell {
   constructor(private readonly runtime: AWOS) {
     this.registry.register(new ClearCommand());
 
-    this.registry.register(new HelpCommand(this.registry.all()));
+    this.registry.register(new HelpCommand(this.registry));
   }
 
   execute(input: string): CommandResult {

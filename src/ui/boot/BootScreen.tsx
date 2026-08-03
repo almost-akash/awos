@@ -4,15 +4,16 @@ import { Terminal } from "@/ui/terminal";
 import { BootHeader } from "./BootHeader";
 import { BootJournal } from "./BootJournal";
 import { BootStatusPanel } from "./BootStatusPanel";
-
+import { AWOS } from "@/core/runtime";
 import { OrionPanel } from "@/ui/orion";
 
 interface BootScreenProps {
   runtime: Readonly<RuntimeSnapshot>;
   orion: Readonly<OrionSnapshot>;
+  awos: AWOS;
 }
 
-export function BootScreen({ runtime, orion }: BootScreenProps) {
+export function BootScreen({ runtime, orion, awos }: BootScreenProps) {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
       <BootHeader />
@@ -23,7 +24,7 @@ export function BootScreen({ runtime, orion }: BootScreenProps) {
 
       <OrionPanel snapshot={orion} />
 
-      <Terminal />
+      <Terminal runtime={awos} />
     </div>
   );
 }

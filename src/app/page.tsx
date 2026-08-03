@@ -25,7 +25,7 @@ export default function Home() {
           </button>
         </div>
       ) : (
-        <BootScreen runtime={snapshot} orion={orion} />
+        <BootScreen runtime={snapshot} orion={orion} awos={runtime} />
       )}
     </main>
   );

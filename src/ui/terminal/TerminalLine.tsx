@@ -5,11 +5,18 @@ interface TerminalLineProps {
 }
 
 export function TerminalLine({ entry }: TerminalLineProps) {
-  return (
-    <div className="flex items-center gap-3 font-runtime text-sm">
-      <span className="select-none text-cyan-400">{">"}</span>
+  if (entry.kind === "input") {
+    return (
+      <div className="flex items-center gap-3 font-runtime text-sm">
+        <span className="text-cyan-400">{">"}</span>
+        <span className="text-neutral-200">{entry.text}</span>
+      </div>
+    );
+  }
 
-      <span className="text-neutral-200">{entry.text}</span>
+  return (
+    <div className="pl-6 font-runtime text-sm text-neutral-400">
+      {entry.text}
     </div>
   );
 }
